@@ -1,0 +1,125 @@
+/* Main Layout */
+.home-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+ padding: 5px 4% 0 4%;   min-height: 79vh;
+}
+
+/* LEFT SIDE */
+.home-left {
+  flex: 1;
+  max-width: 600px;
+}
+
+.home-left h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.home-left p {
+  margin-bottom: 20px;
+  line-height: 1.6;
+  color: #000000;
+}
+
+/* Buttons */
+.home-buttons {
+  margin-top: 20px;
+}
+
+.primary-btn,
+.secondary-btn {
+  padding: 10px 18px;
+  margin-right: 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s ease;
+}
+
+.primary-btn {
+  background: #4f46e5;
+  color: white;
+}
+
+.primary-btn:hover {
+  background: #3730a3;
+}
+
+.secondary-btn {
+  background: #4f46e5;
+}
+
+.secondary-btn:hover {
+  background: #3730a3;
+}
+
+/* RIGHT SIDE */
+.home-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+/* Cartoon Phone */
+.phone {
+  width: 220px;
+  height: 350px;
+  background: #111;
+  border-radius: 30px;
+  padding: 20px;
+  position: relative;
+  animation: float 3s ease-in-out infinite;
+}
+
+.screen {
+  background: #fff;
+  height: 87%;
+  border-radius: 20px;
+  padding: 15px;
+}
+
+.message {
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  animation: fadeIn 2s infinite alternate;
+}
+
+.spam {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.safe {
+  background: #dcfce7;
+  color: #166534;
+}
+
+/* Floating Animation */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Message Fade Animation */
+@keyframes fadeIn {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .home-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .home-right {
+    margin-top: 40px;
+  }
+}
