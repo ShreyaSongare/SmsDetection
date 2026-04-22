@@ -1,33 +1,71 @@
 const mongoose = require("mongoose");
 
-const UserSchema = new mongoose.Schema({
-  name: String,
+const UserSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true
+    },
 
-  email: { 
-    type: String, 
-    unique: true 
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true
+    },
+
+    password: {
+      type: String,
+      required: true
+    },
+
+    // ================================
+    // ✅ EMAIL VERIFICATION
+    // ================================
+    isVerified: {
+      type: Boolean,
+      default: false
+    },
+
+    verificationToken: String,
+
+    // ================================
+    // 🔁 PASSWORD RESET (FUTURE USE)
+    // ================================
+    resetToken: String,
+    resetTokenExpiry: Date,
+
+    // ================================
+    // 🔢 OTP LOGIN
+    // ================================
+    otp: String,
+    otpExpiry: Date,
+
+    // ================================
+    // 🔐 LOGIN SECURITY (NEW)
+    // ================================
+    loginAttempts: {
+      type: Number,
+      default: 0
+    },
+
+    lockUntil: {
+      type: Date
+    },
+
+    // ================================
+    // ⚛️ POST-QUANTUM SUPPORT
+    // ================================
+    kyberPublicKey: {
+      type: String,
+      required: false
+    }
   },
-
-  password: String,
-
-  isVerified: { 
-    type: Boolean, 
-    default: false 
-  },
-
-  verificationToken: String,
-  resetToken: String,
-  resetTokenExpiry: Date,
-
-  otp: String,
-  otpExpiry: Date,
-
-  // ✅ NEW FIELD ADDED (Post-Quantum Support)
-  kyberPublicKey: {
-    type: String,
-    required: false   // keep false so old users don't break
+  {
+    timestamps: true
   }
-
-});
+);
 
 module.exports = mongoose.model("User", UserSchema);
