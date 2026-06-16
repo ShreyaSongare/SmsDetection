@@ -145,7 +145,15 @@ const Navbar = () => {
             )}
           </ul>
 
-       
+          {/* HAMBURGER TOGGLE */}
+          <div
+            className={`menu-toggle ${menuOpen ? "active" : ""}`}
+            onClick={toggleMenu}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
 
         </div>
       </nav>

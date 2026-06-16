@@ -14,18 +14,9 @@ html, body {
   min-height: 100vh;
   overflow-x: hidden;
   font-family: "Poppins", sans-serif;
-  background: linear-gradient(135deg, #7c88c3, #887ea7);
-  color: white;
+  background: #FFF8E1;
+  color: #2c3347;
 }
-
-
-
-
-
-
-
-
-
 
 /* ============================= */
 /* NAVBAR */
@@ -41,9 +32,9 @@ html, body {
   top: 0;
   z-index: 1000;
 
-  background: rgba(112, 129, 161, 0.08);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  background: rgba(140, 192, 235, 0.35);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(140, 192, 235, 0.25);
 }
 
 /* Brand */
@@ -61,7 +52,8 @@ html, body {
 
 .logo-text {
   font-size: 22px;
-  font-weight: 600;
+  font-weight: 700;
+  color: #2c3347;
 }
 
 /* ============================= */
@@ -76,14 +68,31 @@ html, body {
 }
 
 .nav-links a {
-  color: rgba(255,255,255,0.9);
+  color: #2c3347;
   text-decoration: none;
   font-size: 15px;
+  font-weight: 500;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #8CC0EB;
+  transition: width 0.3s ease;
 }
 
 .nav-links a:hover {
-  color: #ffd700;
+  color: #5a9fd4;
   transform: translateY(-2px);
+}
+
+.nav-links a:hover::after {
+  width: 100%;
 }
 
 /* ============================= */
@@ -114,8 +123,9 @@ html, body {
 .menu-toggle span {
   width: 25px;
   height: 3px;
-  background: white;
+  background: #2c3347;
   border-radius: 5px;
+  transition: all 0.3s ease;
 }
 
 .menu-toggle.active span:nth-child(1) {
@@ -142,26 +152,25 @@ html, body {
 .profile-icon {
   width: 38px;
   height: 38px;
-  background: rgba(255,255,255,0.9);
-  color: black;
+  background: #8CC0EB;
+  color: #2c3347;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-
+  font-size: 16px;
   transition: 0.3s;
 }
 
-/* ✅ Hover effect added */
 .profile-icon:hover {
   transform: scale(1.1);
-  box-shadow: 0 4px 15px rgba(137, 4, 4, 0.3);
+  box-shadow: 0 4px 15px rgba(140, 192, 235, 0.5);
 }
 
 body.dark .profile-icon {
-  background: #da9b2e;
-  color: #fff;
+  background: #FDDCBA;
+  color: #2c3347;
 }
 
 /* ============================= */
@@ -172,12 +181,14 @@ body.dark .profile-icon {
   position: absolute;
   top: 55px;
   right: 0;
-  background: rgba(0,0,0,0.85);
-  backdrop-filter: blur(10px);
-  padding: 18px; /* ✅ increased padding */
+  background: #FFF8E1;
+  backdrop-filter: blur(14px);
+  padding: 18px;
   border-radius: 12px;
-  width: 240px; /* ✅ slightly bigger */
+  width: 240px;
   display: none;
+  border: 1px solid rgba(140, 192, 235, 0.3);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
 }
 
 .profile-wrapper.active .profile-dropdown {
@@ -187,14 +198,27 @@ body.dark .profile-icon {
 .profile-dropdown p {
   margin-bottom: 6px;
   font-size: 14px;
+  color: #2c3347;
+}
+
+.profile-dropdown hr {
+  border: none;
+  border-top: 1px solid rgba(140, 192, 235, 0.3);
+  margin: 10px 0;
 }
 
 .logout-btn {
   margin-top: 12px;
   width: 100%;
-  background: crimson;
+  background: #FDDCBA;
+  color: #2c3347;
   padding: 10px;
   border-radius: 8px;
+  font-weight: 600;
+}
+
+.logout-btn:hover {
+  background: #f5c9a0;
 }
 
 /* ============================= */
@@ -219,7 +243,7 @@ body.dark .profile-icon {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.3);
   z-index: 900;
 }
 
@@ -231,6 +255,13 @@ body.dark .profile-icon {
 .dashboard {
   padding: 40px 20px;
   text-align: center;
+}
+
+.page h2,
+.dashboard h2 {
+  color: #2c3347;
+  font-size: 26px;
+  margin-bottom: 20px;
 }
 
 /* ============================= */
@@ -245,11 +276,13 @@ body.dark .profile-icon {
 .hero h1 {
   font-size: 28px;
   margin-bottom: 15px;
+  color: #2c3347;
 }
 
 .hero p {
-  opacity: 0.9;
+  opacity: 0.85;
   margin-bottom: 20px;
+  color: #4a5568;
 }
 
 /* ============================= */
@@ -260,14 +293,16 @@ button {
   padding: 12px;
   border: none;
   border-radius: 12px;
-  background: linear-gradient(135deg, #ff9800, #ff5722);
-  color: white;
+  background: #8CC0EB;
+  color: #2c3347;
+  font-weight: 600;
   cursor: pointer;
 }
 
 button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 25px rgba(140, 192, 235, 0.45);
+  background: #7ab4e2;
 }
 
 /* ============================= */
@@ -284,9 +319,11 @@ button:hover {
 form {
   width: 100%;
   max-width: 380px;
-  background: rgba(255,255,255,0.1);
+  background: #C4DEF1;
   padding: 30px;
   border-radius: 20px;
+  border: 1px solid rgba(140, 192, 235, 0.3);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 }
 
 /* ✅ DASHBOARD INPUT STYLE (sender + message same) */
@@ -295,10 +332,23 @@ textarea {
   width: 100%;
   padding: 12px;
   margin: 10px 0;
-  border-radius: 14px; /* ✅ more rounded */
-  border: none;
-  background: rgba(255,255,255,0.2);
-  color: white;
+  border-radius: 14px;
+  border: 1px solid rgba(140, 192, 235, 0.35);
+  background: #FFF8E1;
+  color: #2c3347;
+  outline: none;
+  font-family: "Poppins", sans-serif;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #8CC0EB;
+  box-shadow: 0 0 0 3px rgba(140, 192, 235, 0.25);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(44, 51, 71, 0.45);
 }
 
 /* ============================= */
@@ -310,7 +360,14 @@ textarea {
   margin: 20px auto;
   padding: 20px;
   border-radius: 15px;
-  background: rgba(255,255,255,0.15);
+  background: #C4DEF1;
+  border: 1px solid rgba(140, 192, 235, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  text-align: left;
+}
+
+.card p {
+  color: #2c3347;
 }
 
 /* ============================= */
@@ -339,9 +396,8 @@ textarea {
   .menu-toggle.active {
     position: fixed;
     top: 20px;
-    right: 20px; /* ✅ top-right corner */
+    right: 20px;
   }
-
 
   .menu-toggle {
     display: flex;
@@ -354,7 +410,7 @@ textarea {
     width: 260px;
     height: 100vh;
 
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(180deg, #C4DEF1, #8CC0EB);
 
     flex-direction: column;
     padding: 80px 20px;
@@ -363,10 +419,17 @@ textarea {
     transition: transform 0.3s ease;
 
     z-index: 1000;
+    border-left: 1px solid rgba(140, 192, 235, 0.3);
   }
 
   .nav-links.active {
     transform: translateX(0);
+  }
+
+  .nav-links a {
+    color: #2c3347;
+    font-size: 16px;
+    font-weight: 600;
   }
 
   .hero h1 {
@@ -400,6 +463,7 @@ textarea {
     transform: translateY(0);
   }
 }
+
 /* ============================= */
 /* PREMIUM FORM */
 /* ============================= */
@@ -410,10 +474,11 @@ textarea {
   padding: 35px;
   border-radius: 20px;
 
-  background: rgba(255,255,255,0.1);
+  background: #C4DEF1;
   backdrop-filter: blur(15px);
 
-  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(140, 192, 235, 0.3);
   animation: fadeInUp 0.5s ease;
 }
 
@@ -422,6 +487,7 @@ textarea {
   text-align: center;
   margin-bottom: 20px;
   font-weight: 600;
+  color: #2c3347;
 }
 
 /* Inputs */
@@ -430,16 +496,17 @@ textarea {
   padding: 14px;
   margin: 12px 0;
   border-radius: 12px;
-  border: none;
+  border: 1px solid rgba(140, 192, 235, 0.35);
 
-  background: rgba(255,255,255,0.2);
-  color: white;
+  background: #FFF8E1;
+  color: #2c3347;
   outline: none;
 }
 
 /* Focus effect */
 .premium-form input:focus {
-  box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
+  border-color: #8CC0EB;
+  box-shadow: 0 0 0 3px rgba(140, 192, 235, 0.25);
 }
 
 /* ============================= */
@@ -448,7 +515,7 @@ textarea {
 
 .btn-wrapper {
   display: flex;
-  justify-content: center; /* ✅ CENTER BUTTON */
+  justify-content: center;
   margin-top: 15px;
 }
 
@@ -457,9 +524,9 @@ textarea {
   padding: 12px;
   border-radius: 30px;
 
-  background: linear-gradient(135deg, #ff9800, #ff5722);
+  background: #8CC0EB;
   border: none;
-  color: white;
+  color: #2c3347;
 
   font-weight: 600;
   cursor: pointer;
@@ -467,10 +534,10 @@ textarea {
   transition: 0.3s;
 }
 
-/* Hover */
 .premium-btn:hover {
   transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 30px rgba(140, 192, 235, 0.45);
+  background: #7ab4e2;
 }
 
 /* ============================= */
@@ -478,7 +545,7 @@ textarea {
 /* ============================= */
 
 .error-text {
-  color: #ff4d4d;
+  color: #e53e3e;
   text-align: center;
   margin-top: 5px;
 }
@@ -491,13 +558,58 @@ textarea {
   text-align: center;
   margin-top: 15px;
   font-size: 14px;
+  color: #4a5568;
 }
 
 .form-footer a {
-  color: #ffd700;
+  color: #5a9fd4;
   text-decoration: none;
+  font-weight: 600;
 }
 
 .form-footer a:hover {
   text-decoration: underline;
+}
+
+/* ============================= */
+/* RESULT TEXT */
+/* ============================= */
+
+.result {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3347;
+}
+
+/* ============================= */
+/* SELECT */
+/* ============================= */
+
+select {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 14px;
+  border: 1px solid rgba(140, 192, 235, 0.35);
+  background: #FFF8E1;
+  color: #2c3347;
+  outline: none;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+}
+
+select option {
+  background: #FFF8E1;
+  color: #2c3347;
+}
+
+/* ============================= */
+/* BTN-CENTER (DASHBOARD) */
+/* ============================= */
+
+.btn-center {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
 }

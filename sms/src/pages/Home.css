@@ -3,7 +3,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
- padding: 5px 4% 0 4%;   min-height: 79vh;
+  padding: 5px 4% 0 4%;
+  min-height: 79vh;
 }
 
 /* LEFT SIDE */
@@ -15,12 +16,20 @@
 .home-left h1 {
   font-size: 36px;
   margin-bottom: 20px;
+  color: #2c3347;
+}
+
+.home-left h2 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: #2c3347;
 }
 
 .home-left p {
   margin-bottom: 20px;
-  line-height: 1.6;
-  color: #000000;
+  line-height: 1.7;
+  color: #4a5568;
+  font-size: 15px;
 }
 
 /* Buttons */
@@ -30,30 +39,37 @@
 
 .primary-btn,
 .secondary-btn {
-  padding: 10px 18px;
+  padding: 12px 22px;
   margin-right: 12px;
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 600;
   transition: 0.3s ease;
 }
 
 .primary-btn {
-  background: #4f46e5;
-  color: white;
+  background: #8CC0EB;
+  color: #2c3347;
 }
 
 .primary-btn:hover {
-  background: #3730a3;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(140, 192, 235, 0.45);
+  background: #7ab4e2;
 }
 
 .secondary-btn {
-  background: #4f46e5;
+  background: #FDDCBA;
+  color: #2c3347;
+  border: none;
 }
 
 .secondary-btn:hover {
-  background: #3730a3;
+  background: #f5c9a0;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(253, 220, 186, 0.5);
 }
 
 /* RIGHT SIDE */
@@ -67,15 +83,17 @@
 .phone {
   width: 220px;
   height: 350px;
-  background: #111;
+  background: #2c3347;
   border-radius: 30px;
   padding: 20px;
   position: relative;
   animation: float 3s ease-in-out infinite;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15),
+              0 0 30px rgba(140, 192, 235, 0.15);
 }
 
 .screen {
-  background: #fff;
+  background: #FFF8E1;
   height: 87%;
   border-radius: 20px;
   padding: 15px;
@@ -90,13 +108,13 @@
 }
 
 .spam {
-  background: #fee2e2;
-  color: #b91c1c;
+  background: #FDDCBA;
+  color: #b45309;
 }
 
 .safe {
-  background: #dcfce7;
-  color: #166534;
+  background: #C4DEF1;
+  color: #1e5f8a;
 }
 
 /* Floating Animation */
