@@ -1,52 +1,76 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { FiMenu, FiX } from "react-icons/fi";
 import logo from "../assets/spamuria logo.png";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Toggle mobile menu
+  // ✅ NEW REF
+  const profileRef = useRef(null);
+
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);
   };
 
-  // Close menu (used for links + overlay)
   const closeMenu = () => {
     setMenuOpen(false);
   };
 
-  // Load user whenever route changes
-  // useEffect(() => {
-  //   const storedUser = JSON.parse(localStorage.getItem("user"));
-  //   setUser(storedUser);
+  // 🌙 Dark Mode
+  const toggleTheme = () => {
+    const newTheme = !darkMode;
+    setDarkMode(newTheme);
 
-  //   // Close mobile menu automatically on route change
-  //   setMenuOpen(false);
-  // }, [location.pathname]);
-
-  useEffect(() => {
-  try {
-    const storedUser = localStorage.getItem("user");
-
-    if (storedUser && storedUser !== "undefined") {
-      setUser(JSON.parse(storedUser));
+    if (newTheme) {
+      document.body.classList.add("dark");
     } else {
+      document.body.classList.remove("dark");
+    }
+  };
+
+  // Load user safely
+  useEffect(() => {
+    try {
+      const storedUser = localStorage.getItem("user");
+
+      if (storedUser && storedUser !== "undefined") {
+        setUser(JSON.parse(storedUser));
+      } else {
+        setUser(null);
+      }
+    } catch (error) {
+      console.log("Invalid user data");
       setUser(null);
     }
-  } catch (error) {
-    console.log("Invalid user data in localStorage");
-    setUser(null);
-  }
 
-  setMenuOpen(false);
-}, [location.pathname]);
-  // Logout function
+    setMenuOpen(false);
+  }, [location.pathname]);
+
+  // ✅ NEW: CLOSE DROPDOWN ON OUTSIDE CLICK
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        profileRef.current &&
+        !profileRef.current.contains(event.target)
+      ) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  // Logout
   const handleLogout = () => {
     localStorage.removeItem("user");
     setUser(null);
@@ -57,85 +81,78 @@ const Navbar = () => {
   return (
     <>
       <nav className="navbar">
+
+        {/* LEFT - LOGO */}
         <div className="brand">
-  <img src={logo} alt="Logo" className="logo-img" />
-  <span className="logo-text">SPAMURAI</span>
-</div>
-
-
-
-        <div className="menu-toggle" onClick={toggleMenu}>
-          {menuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+          <img src={logo} alt="Logo" className="logo-img" />
+          <span className="logo-text">SPAMURAI</span>
         </div>
 
-        <ul className={`nav-links ${menuOpen ? "active" : ""}`}>
-          {/* Always Visible */}
-          <li>
-            <Link to="/" onClick={closeMenu}>Home</Link>
-          </li>
+        {/* RIGHT SIDE */}
+        <div className="nav-right">
 
-          {/* Show ONLY when logged in */}
-          {user && (
-            <>
-              <li>
-                <Link to="/dashboard" onClick={closeMenu}>Dashboard</Link>
-              </li>
-              <li>
-                <Link to="/spam" onClick={closeMenu}>Spam</Link>
-              </li>
-              <li>
-                <Link to="/harm" onClick={closeMenu}>Safe</Link>
-              </li>
-            </>
-          )}
+          {/* NAV LINKS */}
+          <ul className={`nav-links ${menuOpen ? "active" : ""}`}>
+            
+            <li>
+              <Link to="/" onClick={closeMenu}>Home</Link>
+            </li>
 
-          {/* If NOT logged in */}
-          {!user ? (
-            <>
-              <li>
-                <Link to="/login" onClick={closeMenu}>Login</Link>
-              </li>
-              <li>
-                <Link to="/signup" onClick={closeMenu}>Signup</Link>
-              </li>
-            </>
-          ) : (
-            <li className="profile-wrapper">
-              <div
-                className="profile-icon"
-                onClick={() => setDropdownOpen(!dropdownOpen)}
+            {user && (
+              <>
+                <li>
+                  <Link to="/dashboard" onClick={closeMenu}>Dashboard</Link>
+                </li>
+                <li>
+                  <Link to="/spam" onClick={closeMenu}>Spam</Link>
+                </li>
+                <li>
+                  <Link to="/harm" onClick={closeMenu}>Safe</Link>
+                </li>
+              </>
+            )}
+
+            {!user ? (
+              <>
+                <li>
+                  <Link to="/login" onClick={closeMenu}>Login</Link>
+                </li>
+                <li>
+                  <Link to="/signup" onClick={closeMenu}>Signup</Link>
+                </li>
+              </>
+            ) : (
+              <li
+                ref={profileRef} // ✅ ATTACHED HERE
+                className={`profile-wrapper ${dropdownOpen ? "active" : ""}`}
               >
-                👤
-              </div>
+                <div
+                  className="profile-icon"
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                >
+                  👤
+                </div>
 
-              {dropdownOpen && (
                 <div className="profile-dropdown">
-                  <p className="profile-name">
-                    {user.name || "User"}
-                  </p>
-                  <p className="profile-email">
-                    {user.email}
-                  </p>
+                  <p className="profile-name">{user.name || "User"}</p>
+                  <p className="profile-email">{user.email}</p>
                   <hr />
-                  <button
-                    onClick={handleLogout}
-                    className="logout-btn"
-                  >
+                  <button onClick={handleLogout} className="logout-btn">
                     Logout
                   </button>
                 </div>
-              )}
-            </li>
-          )}
-        </ul>
+              </li>
+            )}
+          </ul>
+
+       
+
+        </div>
       </nav>
 
-      {/* Overlay (ONLY when menu open) */}
+      {/* OVERLAY */}
       {menuOpen && (
-        <div
-          className="overlay"
-          onClick={closeMenu}
-        />
+        <div className="overlay" onClick={closeMenu}></div>
       )}
     </>
   );

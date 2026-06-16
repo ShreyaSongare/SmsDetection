@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -8,35 +9,55 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  // ✅ NEW STATE (same as signup)
+  const [showPassword, setShowPassword] = useState(false);
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
       const response = await fetch(
-        "http://localhost:5001/api/auth/login",
+        "http://127.0.0.1:5001/api/auth/login",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Accept: "application/json",
           },
           body: JSON.stringify({ email, password }),
         }
       );
 
-      const data = await response.json();
+      let data;
+      try {
+        data = await response.json();
+      } catch (parseError) {
+        console.error("Login response parse error", parseError);
+        data = {};
+      }
 
       if (!response.ok) {
-        setError(data.message);
+        console.error("Login failed", response.status, data);
+        setError(data.message || response.statusText || "Login failed");
         return;
       }
 
       setError("");
 
-      // ✅ Store userId temporarily (NOT full user)
-      localStorage.setItem("userId", data.userId);
+      if (data.sessionKey) {
+        localStorage.setItem("sessionKey", data.sessionKey);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        navigate("/dashboard");
+        return;
+      }
 
-      // ✅ Navigate to OTP page
-      navigate("/verify-otp");
+      if (data.userId) {
+        localStorage.setItem("userId", data.userId);
+        navigate("/verify-otp");
+        return;
+      }
+
+      setError("Unexpected login response from server");
 
     } catch (error) {
       console.log(error);
@@ -46,35 +67,57 @@ export default function Login() {
 
   return (
     <div className="form-container">
-      <form onSubmit={handleLogin}>
-        <h2>Login</h2>
+      <form onSubmit={handleLogin} className="premium-form">
+        
+        <h2 className="form-title">Welcome Back 👋</h2>
 
+        {/* EMAIL */}
         <input
           type="email"
-          placeholder="Email"
+          placeholder="Email Address"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        {/* PASSWORD WITH TOGGLE */}
+        <div style={{ position: "relative" }}>
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <span
+            onClick={() => setShowPassword(!showPassword)}
+            style={{
+              position: "absolute",
+              right: "12px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center"
+            }}
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </span>
+        </div>
 
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {error && <p className="error-text">{error}</p>}
 
-        <button type="submit">Login</button>
+        <div className="btn-wrapper">
+          <button type="submit" className="premium-btn">
+            Login
+          </button>
+        </div>
 
-        <p style={{ marginTop: "10px", textAlign: "center" }}>
+        <p className="form-footer">
           Don’t have an account?{" "}
-          <Link to="/signup" style={{ color: "blue" }}>
-            Signup
-          </Link>
+          <Link to="/signup">Signup</Link>
         </p>
+
       </form>
     </div>
   );

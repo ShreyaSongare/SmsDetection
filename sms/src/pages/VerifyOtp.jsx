@@ -8,53 +8,62 @@ export default function VerifyOTP() {
   const [error, setError] = useState("");
 
   const handleVerify = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const userId = localStorage.getItem("userId");
+  const userId = localStorage.getItem("userId");
 
-    if (!userId) {
-      setError("Session expired. Please login again.");
+  if (!userId) {
+    setError("Session expired. Please login again.");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      "http://127.0.0.1:5001/api/auth/verify-otp",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ userId, otp }),
+      }
+    );
+
+    const data = await response.json();
+
+    // ❌ Handle error first
+    if (!response.ok) {
+      console.error("OTP verify failed", response.status, data);
+      setError(data.message || "Invalid OTP");
       return;
     }
 
-    try {
-      const response = await fetch(
-        "http://localhost:5001/api/auth/verify-otp",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ userId, otp }),
-        }
-      );
+    // ❌ Safety check
+    if (!data.user || !data.sessionKey) {
+      setError("Invalid OTP response from server");
+      return;
+    }
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.message || "Invalid OTP");
-        return;
-      }
-
-      // ✅ STORE USER DATA
+    // ✅ SUCCESS (this is what you wanted)
+    if (response.ok) {
       localStorage.setItem("user", JSON.stringify(data.user));
-
-      // 🔐 STORE SESSION KEY (MOST IMPORTANT FIX)
       localStorage.setItem("sessionKey", data.sessionKey);
 
-      // 🧹 CLEAN TEMP DATA
+      // 🧹 Clean temp login data
       localStorage.removeItem("userId");
 
-      console.log("Session Key stored:", data.sessionKey); // ✅ debug
+      console.log("Login successful:", data.user);
 
-      // 🚀 Redirect
       navigate("/dashboard");
-
-    } catch (error) {
-      console.error("OTP verify error:", error);
-      setError("Server not responding");
     }
-  };
+
+  } catch (error) {
+    console.error("OTP verify error:", error);
+    setError("Server not responding");
+  }
+};
+  
 
   return (
     <div className="otp-container">
